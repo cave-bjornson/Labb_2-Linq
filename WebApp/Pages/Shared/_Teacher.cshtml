@@ -1,0 +1,19 @@
+﻿@model EntityModels.Models.Teacher
+
+<article>
+    <header>@Model.Name</header>
+    <h6>Kurser:</h6>
+    @if (!Model.Courses.Any())
+        {
+            <p>No courses registered.</p>
+        }
+        else
+        {
+            <ul>
+                @foreach (var courses in Model.Courses)
+                {
+                    <li>@courses.Name</li>
+                }
+            </ul>
+        }
+</article>

@@ -1,0 +1,20 @@
+﻿@model WebApp.Models.StudentViewModel
+
+<details>
+    <summary>@Model.StudentName</summary>
+    <h6>Lärare:</h6>
+    @if (!Model.CourseTeachers.Any())
+    {
+        <p>Inga lärare registrerade.</p>
+    }
+    else
+    {
+        <ul>
+            @foreach (var courseTeacher in Model.CourseTeachers)
+            {
+                <li>@courseTeacher.TeacherName - @courseTeacher.CourseName</li>
+            }
+        </ul>
+    }
+    <a asp-page="TeacherChoice" asp-route-id="@Model.StudentId">Välj Lärare</a>
+</details>

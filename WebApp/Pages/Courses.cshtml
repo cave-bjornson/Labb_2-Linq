@@ -1,0 +1,39 @@
+﻿@page
+@using EntityModels.Models
+@model WebApp.Pages.CoursesModel
+@{
+    ViewData["Title"] = "Courses";
+}
+<section>
+    <table role="grid">
+        <thead>
+        <tr>
+            <th>Kurs</th>
+            <th>Lärare</th>
+            <th># Elever</th>
+        </tr>
+        </thead>
+        <tbody>
+        @if (Model.Courses is not null)
+        {
+            @foreach (Course course in Model.Courses)
+            {
+                <tr>
+                    <td>
+                        <a asp-page="Course" asp-route-id="@course.Id">@course.Name</a>
+                    </td>
+                    <td>
+                        @foreach (var courseTeacher in course.Teachers)
+                        {
+                            <text>@courseTeacher.Name </text>
+                        }
+                    </td>
+                    <td>
+                        @course.Students.Count
+                    </td>
+                </tr>
+            }
+        }
+        </tbody>
+    </table>
+</section>

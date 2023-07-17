@@ -1,0 +1,22 @@
+﻿@page
+@model WebApp.Pages.CourseModel
+@if (Model.CurrentCourse is not null)
+{
+    <section id="course-data">
+        <partial name="_Course" model="Model.CurrentCourse"/>
+    </section>
+    <section id="course-form">
+        <article>
+            <form method="POST">
+                <div class="grid">
+                    <div>
+                        <input asp-for="CourseName">
+                    </div>
+                    <div>
+                        <button type="submit">Ändra Namn</button>
+                    </div>
+                </div>
+            </form>
+        </article>
+    </section>
+}
