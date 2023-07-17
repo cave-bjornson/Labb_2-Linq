@@ -1,0 +1,35 @@
+﻿@page
+@model WebApp.Pages.TeacherChoicePageModel
+
+<article>
+    <header>
+        <hgroup>
+            <h2>@Model.StudentName</h2>
+            <h3>Välj lärare för kurser</h3>
+        </hgroup>
+    </header>
+    <form method="POST">
+        <fieldset>
+            @{ var oldCourseName = string.Empty;}
+            @for (var i = 0; i < Model.TeacherChoices.Count; i++)
+            {
+                {
+                    var currentCourseName = Model.TeacherChoices[i].CourseTeacher.CourseName;
+                    if (currentCourseName != oldCourseName)
+                    {
+                        <strong>@currentCourseName</strong>
+                        oldCourseName = currentCourseName;
+                    }
+                }
+                @* <input type = "hidden" asp-for="TeacherChoices[i].ChoiceId"/> *@
+                <input type = "hidden" asp-for="TeacherChoices[i].CourseTeacher.CourseId" />
+                <input type = "hidden" asp-for="TeacherChoices[i].CourseTeacher.TeacherId" />
+                <label>
+                    @Model.TeacherChoices[i].CourseTeacher.TeacherName
+                    <input asp-for="TeacherChoices[i].Enabled"/>
+                </label>
+            }
+        </fieldset>
+        <input type="submit" value="Bekräfta val" />
+    </form>
+</article>

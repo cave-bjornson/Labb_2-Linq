@@ -14,6 +14,8 @@ public class SchoolDbContext : DbContext
 
     public DbSet<CourseTeacher> CourseTeachers { get; set; }
 
+    public DbSet<StudentCourse> StudentCourses { get; set; }
+
     public DbSet<Student> Students { get; set; }
 
     public DbSet<Teacher> Teachers { get; set; }
@@ -53,12 +55,14 @@ public class SchoolDbContext : DbContext
             optionsBuilder.UseSqlite($"DataSource={path};Cache=Shared");
         }
 
-        optionsBuilder.EnableSensitiveDataLogging();
+        // optionsBuilder.LogTo(Console.WriteLine);
+        // optionsBuilder.EnableSensitiveDataLogging();
     }
 
     /// <inheritdoc />
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        ;
         base.OnModelCreating(modelBuilder);
 
         modelBuilder
@@ -72,7 +76,7 @@ public class SchoolDbContext : DbContext
             course
                 .HasMany<Student>(c => c.Students)
                 .WithMany(s => s.Courses)
-                .UsingEntity<StudentCourseTeacher>();
+                .UsingEntity<StudentCourse>();
 
             course
                 .HasMany<Teacher>(c => c.Teachers)
@@ -89,6 +93,8 @@ public class SchoolDbContext : DbContext
         });
 
         modelBuilder.Entity<CourseTeacher>().HasKey(ct => new { ct.CourseId, ct.TeacherId });
+
+        modelBuilder.Entity<StudentCourse>().HasKey(sc => new { sc.StudentId, sc.CourseId });
 
         modelBuilder
             .Entity<StudentCourseTeacher>()
@@ -107,6 +113,7 @@ public class SchoolDbContext : DbContext
         modelBuilder.Entity<Course>().HasData(dataBaseSeeder.Courses);
         modelBuilder.Entity<Teacher>().HasData(dataBaseSeeder.Teachers);
         modelBuilder.Entity<Student>().HasData(dataBaseSeeder.Students);
+        modelBuilder.Entity<StudentCourse>().HasData(dataBaseSeeder.SC);
         modelBuilder.Entity<CourseTeacher>().HasData(dataBaseSeeder.CT);
         modelBuilder.Entity<StudentCourseTeacher>().HasData(dataBaseSeeder.SCT);
     }

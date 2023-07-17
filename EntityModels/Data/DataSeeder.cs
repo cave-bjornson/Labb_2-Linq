@@ -13,13 +13,14 @@ public class DataSeeder
     public readonly IReadOnlyCollection<Course> Courses;
     public readonly ICollection<CourseTeacher> CT = new HashSet<CourseTeacher>();
     public readonly ICollection<StudentCourseTeacher> SCT = new HashSet<StudentCourseTeacher>();
+    public readonly ICollection<StudentCourse> SC = new HashSet<StudentCourse>();
 
     public DataSeeder()
     {
         Classes = GenerateClasses();
         Courses = GenerateCourses();
         Teachers = GenerateTeachers(10, Courses, CT);
-        Students = GenerateStudents(100, Classes, Courses, Teachers, CT, SCT);
+        Students = GenerateStudents(100, Classes, Courses, Teachers, CT, SCT, SC);
     }
 
     private static IReadOnlyCollection<Student> GenerateStudents(
@@ -28,7 +29,8 @@ public class DataSeeder
         IEnumerable<Course> courses,
         IEnumerable<Teacher> teachers,
         ICollection<CourseTeacher> ct,
-        ICollection<StudentCourseTeacher> studentCourseTeachers
+        ICollection<StudentCourseTeacher> studentCourseTeachers,
+        ICollection<StudentCourse> studentCourses
     )
     {
         var studentFaker = new Faker<Student>(locale: "sv").Rules(
@@ -55,6 +57,21 @@ public class DataSeeder
                             TeacherId = courseTeacher.TeacherId
                         }
                     );
+
+                    if (
+                        !studentCourses.Any(
+                            sc => sc.StudentId == s.Id && sc.CourseId == courseTeacher.CourseId
+                        )
+                    )
+                    {
+                        studentCourses.Add(
+                            new StudentCourse()
+                            {
+                                StudentId = s.Id,
+                                CourseId = courseTeacher.CourseId
+                            }
+                        );
+                    }
                 }
             }
         );

@@ -1,0 +1,33 @@
+﻿@model WebApp.Models.CourseViewModel
+
+<article>
+    <header>
+        <hgroup>
+            <h5>@Model.CourseName</h5>
+            <h6>
+                Antal studenter: @Model.Students.Count()
+            </h6>
+        </hgroup>
+    </header>
+    @if (!Model.Students.Any())
+            {
+                <p>Inga registrerade studenter.</p>
+                return;
+            }
+    
+            @foreach (var student in Model.Students)
+            {
+                <partial name="_Student" model="student"/>
+            }
+    <footer>
+        <hgroup>
+            <h5>Lärare</h5>
+            <ul>
+                @foreach (var teacher in @Model.Teachers)
+                {
+                    <li>@teacher.Name</li>
+                }
+            </ul>
+        </hgroup>
+    </footer>
+</article>

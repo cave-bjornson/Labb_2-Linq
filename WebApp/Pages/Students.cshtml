@@ -1,0 +1,21 @@
+﻿@page
+@model WebApp.Pages.StudentsModel
+
+<section>
+    <hgroup>
+        <h2>Studenter</h2>
+        <h3>Och deras lärare</h3>
+    </hgroup>
+    <article>
+        @if (Model.Students is null || !Model.Students.Any())
+        {
+            <p>No students registered.</p>
+            return;
+        }
+
+        @foreach (var student in Model.Students)
+        {
+            <partial name="_Student" model="student"/>
+        }
+    </article>
+</section>

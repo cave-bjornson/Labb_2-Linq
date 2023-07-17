@@ -1,0 +1,36 @@
+﻿@page
+@model WebApp.Pages.TeachersModel
+
+<section>
+    <hgroup>
+        <h2>Lärare</h2>
+        <h3>Och deras kurser</h3>
+    </hgroup>
+    @if (Model.Teachers is null || !Model.Teachers.Any())
+    {
+        <article>
+            <p>No Teachers registered.</p>
+        </article>
+        return;
+    }
+    <div class="grid">
+        @{
+            int col;
+        }
+        @for (col = 0; col < Model.Teachers.Length; col++)
+        {
+            <partial name="_Teacher" model="Model.Teachers[col]"/>
+
+            @if ((col + 1) % 3 == 0)
+            {
+                @:</div><div class="grid">
+            }
+        }
+        @for (var i = 0; i < 3 - col % 3; i++)
+        {
+            <article>
+                <header></header>
+            </article>
+        }
+    </div>
+</section>

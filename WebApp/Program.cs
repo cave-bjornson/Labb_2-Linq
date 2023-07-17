@@ -1,7 +1,12 @@
+using EntityModels;
+using WebApp.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddSchoolDbContext();
+builder.Services.AddScoped<ViewModelService>();
 
 var app = builder.Build();
 
@@ -14,6 +19,7 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
 app.UseStaticFiles();
 
 app.UseRouting();
